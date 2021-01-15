@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import { Switch, Route } from "react-router-dom";
+
+import HomePage from "./pages/homepage/homepage.comp";
+import StartGame from "./pages/startgame/startgame.comp";
+import PlayGame from "./pages/playgame/playgame.comp";
+import Results from "./pages/results/results.comp";
 
 function App() {
+  let playersGlobalArray = [];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(props) => (
+            <HomePage {...props} playersGlobalArray={playersGlobalArray} />
+          )}
+        />
+        <Route exact path="/startgame" component={StartGame} />
+        <Route exact path="/playgame" component={PlayGame} />
+        <Route exact path="/results" component={Results} />
+      </Switch>
     </div>
   );
 }
