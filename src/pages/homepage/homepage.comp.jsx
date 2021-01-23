@@ -1,22 +1,31 @@
 import React, { useState } from "react";
 import lodash from "lodash";
 
-import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { withRouter, useHistory } from "react-router-dom";
+
+import {
+  removePlayers,
+  updatePlayerName,
+  addPlayers,
+} from "../../redux/player/player.actions";
 
 import Header from "../../components/header/header.comp";
 
-const HomePage = ({ playersGlobalArray }) => {
+const HomePage = () => {
   const history = useHistory();
 
   const [playerCount, setPlayerCount] = useState();
 
   const [countSubmitted, setCountSubmitted] = useState(false);
 
-  const [players, setPlayers] = useState([]);
+  const players = useSelector((state) => state.players.players);
+
+  const dispatch = useDispatch();
 
   const handleCountInput = (event) => {
     if (countSubmitted) {
-      setPlayers([]);
+      dispatch(removePlayers());
       setCountSubmitted(false);
     }
     const { value } = event.target;
@@ -24,23 +33,23 @@ const HomePage = ({ playersGlobalArray }) => {
   };
 
   const handleCountSubmit = () => {
-    lodash.times(playerCount, () =>
-      setPlayers((prevPlayers) => {
-        return [...prevPlayers, { name: "" }];
-      })
-    );
-    console.log(players);
+    lodash.times(playerCount, () => dispatch(addPlayers({ name: "", actualPhase: "1", points: "0" })));
+
     setCountSubmitted(true);
   };
+
+  console.log("players state", players);
 
   const handleNameInput = (event) => {
     console.log("helloNameInputHandler");
     const updatedPlayers = [...players];
-    console.log(updatedPlayers);
+    console.log("updated players", updatedPlayers);
     console.log(event.target.dataset.idx);
-    updatedPlayers[event.target.dataset.idx][event.target.alt] =
+    console.log(event.target.value);
+    updatedPlayers[event.target.dataset.idx].name =
       event.target.value;
-    setPlayers(updatedPlayers);
+    console.log(updatedPlayers[event.target.dataset.idx].name);
+    dispatch(updatePlayerName(updatedPlayers));
   };
 
   const handleNamesSubmit = (event) => {
@@ -48,12 +57,7 @@ const HomePage = ({ playersGlobalArray }) => {
     if (!countSubmitted) {
       alert("You've gotta add players, dummy :)");
     } else {
-      playersGlobalArray = players;
-      console.log("global", playersGlobalArray);
-      //   history.push("/playgame", { state: playersGlobalArray });
-      history.push("/playgame", {
-        params: playersGlobalArray,
-      });
+      history.push("/playgame");
     }
   };
 
@@ -102,7 +106,7 @@ const HomePage = ({ playersGlobalArray }) => {
                         type="text"
                         alt="name"
                         className="form-control-lg"
-                        placeholder={`Player ${idx + 1}'s name`}
+                        placeholder={`Player ${idx + 1}`}
                         value={players[idx].name}
                         onChange={handleNameInput}
                         required
@@ -123,4 +127,5 @@ const HomePage = ({ playersGlobalArray }) => {
   );
 };
 
-export default HomePage;
+export default withRouter(HomePage);
+// export default withRouter(connect(null)(HomePage));
