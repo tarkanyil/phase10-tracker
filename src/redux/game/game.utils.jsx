@@ -1,4 +1,4 @@
-export const roundSubmit = (id, givesCard) => {
-    const newId = id + 1;
-    return { id: newId, givesCard: givesCard }
+export const increaseId = (count) => {
+    const newId = count + 1;
+    return newId;
 }

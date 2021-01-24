@@ -10,23 +10,31 @@ import { roundSubmit } from "../../redux/game/game.actions";
 import Header from "../../components/header/header.comp";
 
 const PlayGame = () => {
-  const players = useSelector((state) => state.players.players);
-  const game = useSelector((state) => state.game.game);
+  const players = useSelector((state) => state.players);
+  const game = useSelector((state) => state.game);
 
   console.log(game);
 
   const dispatch = useDispatch();
 
-  
-
   const handleSubmit = (event) => {
     event.preventDefault();
     // round update
-    // id++, mixer next player
+      // id++, mixer next player
+
     // update player states
-    // setRound(round + 1);
-    // console.log(round);
-    dispatch(roundSubmit());
+    const actualGivesCard = game.givesCard;
+    const actualIdx = players.findIndex(player => (player.name === actualGivesCard));
+    console.log(actualIdx);
+    const nextGivesCard = (actualIdx) => {
+      if (actualIdx === players.length-1) {
+        return 0;
+      } else return (actualIdx + 1);
+    }
+    console.log(nextGivesCard(actualIdx));
+    const nextName = players[nextGivesCard(actualIdx)].name;
+    console.log(nextName);
+    dispatch(roundSubmit(nextName));
   };
 
   return (
@@ -34,7 +42,7 @@ const PlayGame = () => {
       <Header />
       <div className="container">
         <h2 className="header-title mt-3">Let's play!</h2>
-        <h2 className="mt-4 mb-4">Actual round: {game.id}</h2>
+        <h2 className="mt-4 mb-4">Actual round: {game.count}</h2>
         <h2 className="mt-4 mb-4">Mixes cards: {game.givesCard}</h2>
         <form onSubmit={handleSubmit} className="">
           <div className="row ">

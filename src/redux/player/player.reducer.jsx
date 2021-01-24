@@ -1,26 +1,16 @@
 import PlayerActionTypes from "./player.types";
 
-const INITIAL_STATE = {
-  players: [],
-};
+const INITIAL_STATE = [];
+
 
 export const playerReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PlayerActionTypes.ADD_PLAYER:
-      return {
-        ...state,
-        players: [...state.players, action.payload],
-      };
+      return [...state, action.payload];
     case PlayerActionTypes.UPDATE_PLAYER_NAME:
-      return {
-        ...state,
-        players: action.payload
-      };
+      return action.payload;
     case PlayerActionTypes.REMOVE_PLAYERS:
-      return {
-        ...state,
-        players: [],
-      };
+      return [];
     default:
       return state;
   }

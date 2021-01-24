@@ -10,6 +10,8 @@ import {
   addPlayers,
 } from "../../redux/player/player.actions";
 
+import { setInitialRound, resetState } from "../../redux/game/game.actions";
+
 import Header from "../../components/header/header.comp";
 
 const HomePage = () => {
@@ -19,7 +21,7 @@ const HomePage = () => {
 
   const [countSubmitted, setCountSubmitted] = useState(false);
 
-  const players = useSelector((state) => state.players.players);
+  const players = useSelector((state) => state.players);
 
   const dispatch = useDispatch();
 
@@ -33,7 +35,7 @@ const HomePage = () => {
   };
 
   const handleCountSubmit = () => {
-    lodash.times(playerCount, () => dispatch(addPlayers({ name: "", actualPhase: "1", points: "0" })));
+    lodash.times(playerCount, () => dispatch(addPlayers({ name: "", actualPhase: "1", points: "0", leader: false })));
 
     setCountSubmitted(true);
   };
@@ -57,9 +59,15 @@ const HomePage = () => {
     if (!countSubmitted) {
       alert("You've gotta add players, dummy :)");
     } else {
+      dispatch(setInitialRound(players[0].name))
       history.push("/playgame");
     }
   };
+
+  const handleResetStates = () => {
+    dispatch(updatePlayerName([]));
+    dispatch(resetState());
+  }
 
   return (
     <div>
@@ -91,6 +99,14 @@ const HomePage = () => {
                   onClick={handleCountSubmit}
                 >
                   Submit
+                </button>
+                <button
+                  className="btn btn-lg btn-warning"
+                  type="button"
+                  id="button-addon2"
+                  onClick={handleResetStates}
+                >
+                  Reset states
                 </button>
               </div>
             </div>

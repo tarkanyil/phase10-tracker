@@ -1,19 +1,28 @@
 import GameActionTypes from "./game.types";
-import { roundSubmit } from "./game.utils";
+import { increaseId } from "./game.utils";
 
 const INITIAL_STATE = {
-  game: {
-      id: 1,
-      givesCard: "Lackó"
-  },
+  count: 1,
+  givesCard: "",
 };
 
 export const gameReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case GameActionTypes.SET_INITIAL_ROUND:
+      return {
+        ...state,
+        givesCard: action.payload,
+      };
     case GameActionTypes.ROUND_SUBMIT:
       return {
-          game: roundSubmit(state.game.id, "Helllllloooo")
-        };
+        count: increaseId(state.count),
+        givesCard: action.payload,
+      };
+    case GameActionTypes.RESET_STATE:
+      return {
+        count: 1,
+        givesCard: "",
+      };
     default:
       return state;
   }

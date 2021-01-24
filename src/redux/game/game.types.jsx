@@ -1,5 +1,7 @@
 const GameActionTypes = {
-    ROUND_SUBMIT: "ROUND_SUBMIT"
+    SET_INITIAL_ROUND: "SET_INITIAL_ROUND",
+    ROUND_SUBMIT: "ROUND_SUBMIT",
+    RESET_STATE: "RESET_STATE"
 }
 
 export default GameActionTypes;
