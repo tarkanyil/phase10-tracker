@@ -4,3 +4,12 @@
     margin-right: auto;
     max-width: 280px;
 }
+
+.leader-image {
+    position: absolute;
+    transform: rotate(5deg);
+    top: -10px;
+    right: -8px;
+    width: 60px;
+    height: 80px;
+}

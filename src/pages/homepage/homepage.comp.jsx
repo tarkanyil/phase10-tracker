@@ -37,7 +37,7 @@ const HomePage = () => {
   const handleCountSubmit = () => {
     let playerId = 0;
     lodash.times(playerCount, () => {
-      dispatch(addPlayers({ id: playerId, name: "", actualPhase: 1, totalPoints: 0, roundPoints: "", leader: false }));
+      dispatch(addPlayers({ id: playerId, name: "", phaseCompleted: false, actualPhase: 1, totalPoints: 0, roundPoints: "", leader: false }));
       playerId++;
     })
     setCountSubmitted(true);

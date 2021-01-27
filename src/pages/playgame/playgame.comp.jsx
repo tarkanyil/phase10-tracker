@@ -4,9 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { withRouter, useHistory } from "react-router-dom";
 
 import "./playgame.styles.css";
+import image from "../../assets/leader-badge.png"
 
 import { roundSubmit } from "../../redux/game/game.actions";
-import { updatePlayerRoundPoints } from "../../redux/player/player.actions"
+import { updatePlayerRoundPoints, updatePlayerPhase, endOfRoundUpdate } from "../../redux/player/player.actions"
 
 import Header from "../../components/header/header.comp";
 
@@ -25,14 +26,6 @@ const PlayGame = () => {
     console.log(event.target);
     dispatch(updatePlayerRoundPoints(event.target));
 
-    // const updatedPlayers = [...players];
-    // console.log("updated players", updatedPlayers);
-    // console.log(event.target.dataset.idx);
-    // console.log(event.target.value);
-    // updatedPlayers[event.target.dataset.idx].name =
-    //   event.target.value;
-    // console.log(updatedPlayers[event.target.dataset.idx].name);
-    // dispatch(updatePlayerName(updatedPlayers));
   };
 
   const handleSubmit = (event) => {
@@ -43,10 +36,8 @@ const PlayGame = () => {
     dispatch(roundSubmit(nextGiver));
 
     // update player state
-    console.log(event.target.dataset);
-    // players.map((player, idx) => {
-      
-    // })
+    dispatch(endOfRoundUpdate())
+
 
   };
 
@@ -54,7 +45,6 @@ const PlayGame = () => {
     const actualIdx = players.findIndex(
       (player) => player.name === actualGivesCards
     );
-    console.log(actualIdx);
     const nextIdx = (actualIdx) => {
       if (actualIdx === players.length - 1) {
         return 0;
@@ -62,6 +52,11 @@ const PlayGame = () => {
     };
     return players[nextIdx(actualIdx)].name;
   };
+
+  const handleCheckBox = (event) => {
+    console.log(event.target);
+    dispatch(updatePlayerPhase(event.target));
+  }
 
   return (
     <div>
@@ -77,6 +72,7 @@ const PlayGame = () => {
                 <div className="col-sm-12 col-md-6 col-lg-4 col-xl-3" key={idx}>
                   <div className="card text-dark bg-light mb-3">
                     <div className="card-header">{player.name}</div>
+                    {/* <img src={image} alt="leader badge" className="leader-image" /> */}
                     <div className="card-body">
                       <h6 className="card-title">
                         Actual phase: {player.actualPhase}
@@ -85,9 +81,13 @@ const PlayGame = () => {
                       <h6 className="card-title">Round result</h6>
                       <div className="mb-3 form-check">
                         <input
+                          name={idx}
                           type="checkbox"
                           className="form-check-input"
                           id="exampleCheck1"
+                          value={players[idx].phaseCompleted}
+                          onChange={handleCheckBox}
+                          checked={players[idx].phaseCompleted}
                         />
                         <label
                           className="form-check-label"
@@ -114,7 +114,7 @@ const PlayGame = () => {
                       </div>
                       <hr />
                       <h6 className="card-title">
-                        Total points: {player.points}
+                        Total points: {player.totalPoints}
                       </h6>
                       <h6 className="card-title">Rank: 1</h6>
                     </div>

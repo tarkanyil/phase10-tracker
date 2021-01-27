@@ -20,4 +20,13 @@ export const updatePlayerRoundPoints = players => ({
     payload: players
 })
 
+export const updatePlayerPhase = players => ({
+    type: PlayerActionTypes.UPDATE_PLAYER_PHASE,
+    payload: players
+})
+
+export const endOfRoundUpdate = players => ({
+    type: PlayerActionTypes.END_OF_ROUND_UPDATE,
+    payload: players
+})
 
