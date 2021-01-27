@@ -6,6 +6,7 @@ import { withRouter, useHistory } from "react-router-dom";
 import "./playgame.styles.css";
 
 import { roundSubmit } from "../../redux/game/game.actions";
+import { updatePlayerRoundPoints } from "../../redux/player/player.actions"
 
 import Header from "../../components/header/header.comp";
 
@@ -17,24 +18,49 @@ const PlayGame = () => {
 
   const dispatch = useDispatch();
 
+  const handlePointsInput = (event) => {
+    console.log("Hello from points update");
+    console.log(event.target.value);
+    console.log(event.target.name);
+    console.log(event.target);
+    dispatch(updatePlayerRoundPoints(event.target));
+
+    // const updatedPlayers = [...players];
+    // console.log("updated players", updatedPlayers);
+    // console.log(event.target.dataset.idx);
+    // console.log(event.target.value);
+    // updatedPlayers[event.target.dataset.idx].name =
+    //   event.target.value;
+    // console.log(updatedPlayers[event.target.dataset.idx].name);
+    // dispatch(updatePlayerName(updatedPlayers));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // round update
-      // id++, mixer next player
 
-    // update player states
-    const actualGivesCard = game.givesCard;
-    const actualIdx = players.findIndex(player => (player.name === actualGivesCard));
+    // update game state
+    const nextGiver = givesCardsNext(game.givesCard);
+    dispatch(roundSubmit(nextGiver));
+
+    // update player state
+    console.log(event.target.dataset);
+    // players.map((player, idx) => {
+      
+    // })
+
+  };
+
+  const givesCardsNext = (actualGivesCards) => {
+    const actualIdx = players.findIndex(
+      (player) => player.name === actualGivesCards
+    );
     console.log(actualIdx);
-    const nextGivesCard = (actualIdx) => {
-      if (actualIdx === players.length-1) {
+    const nextIdx = (actualIdx) => {
+      if (actualIdx === players.length - 1) {
         return 0;
-      } else return (actualIdx + 1);
-    }
-    console.log(nextGivesCard(actualIdx));
-    const nextName = players[nextGivesCard(actualIdx)].name;
-    console.log(nextName);
-    dispatch(roundSubmit(nextName));
+      } else return actualIdx + 1;
+    };
+    return players[nextIdx(actualIdx)].name;
   };
 
   return (
@@ -76,10 +102,14 @@ const PlayGame = () => {
                           Points
                         </span>
                         <input
+                          key={idx}
+                          name={idx}
                           type="text"
                           className="form-control"
                           id="basic-url"
                           aria-describedby="basic-addon3"
+                          value={players[idx].roundPoints}
+                          onChange={handlePointsInput}
                         />
                       </div>
                       <hr />

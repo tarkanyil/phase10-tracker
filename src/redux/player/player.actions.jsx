@@ -15,3 +15,9 @@ export const removePlayers = players => ({
     payload: players
 })
 
+export const updatePlayerRoundPoints = players => ({
+    type: PlayerActionTypes.UPDATE_PLAYER_ROUND_POINTS,
+    payload: players
+})
+
+
