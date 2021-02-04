@@ -24,3 +24,7 @@
 .playgame-form {
     margin-bottom: 50px;
 }
+
+.card-subtitle {
+    font-style: italic;
+}

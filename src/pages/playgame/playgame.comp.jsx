@@ -14,7 +14,7 @@ import {
   newRoundSamePlayers,
 } from "../../redux/player/player.actions";
 
-import { numberOfPhases } from "../../utils/constants";
+import { numberOfPhases, phases } from "../../utils/constants";
 
 import Header from "../../components/header/header.comp";
 
@@ -147,6 +147,9 @@ const PlayGame = () => {
                     <div className="card-body">
                       <h6 className="card-title">
                         Actual phase: {player.actualPhase}
+                      </h6>
+                      <h6 className="card-subtitle">
+                        {phases[player.actualPhase-1].desc}
                       </h6>
                       <hr />
                       <h6 className="card-title">Round result</h6>
