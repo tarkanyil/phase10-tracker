@@ -1,3 +1,5 @@
+import { numberOfPhases } from "../../utils/constants";
+
 export const updatePoints = (state, payload) => {
   const index = Number(payload.name);
   const incrementValue = Number(payload.value);
@@ -25,7 +27,7 @@ export const updatePhase = (state, payload) => {
       ...state[index],
       phaseCompleted: newValue,
     },
-    ...state.slice(index + 1) // everything after current post
+    ...state.slice(index + 1), // everything after current post
   ];
 
   return newState;
@@ -33,23 +35,25 @@ export const updatePhase = (state, payload) => {
 
 export const roundEndUpdate = (state) => {
   let newState = state.map((player) => {
-    let newPhase = player.phaseCompleted
-      ? player.actualPhase + 1
-      : player.actualPhase;
-    console.log(newPhase);
+    let newPhase;
+    if (player.phaseCompleted) {
+      if (player.actualPhase < numberOfPhases) {
+        newPhase = player.actualPhase + 1;
+      } else {
+        newPhase = "GAME COMPLETED";
+      }
+    } else {
+      newPhase = player.actualPhase;
+    }
     const newTotalPoints =
       Number(player.totalPoints) + Number(player.roundPoints);
     let newPhaseCompl = false;
     const newGameCompl = () => {
-      if (player.actualPhase >= 3 && player.phaseCompleted) {
-        newPhase = "GAME COMPLETED";
-        newPhaseCompl = false;
-        console.log(newPhase);
+      if (player.actualPhase >= numberOfPhases && player.phaseCompleted) {
         return true;
       }
       return false;
     };
-    console.log(newGameCompl());
     const newRoundPoints = 0;
     return {
       ...player,
@@ -66,7 +70,15 @@ export const roundEndUpdate = (state) => {
 
 export const resetExistingPlayers = (state) => {
   const newState = state.map((player) => {
-    return { ...player, phaseCompleted: false, actualPhase: 1, totalPoints: 0, roundPoints: "", leader: false, completedGame: false };
+    return {
+      ...player,
+      phaseCompleted: false,
+      actualPhase: 1,
+      totalPoints: 0,
+      roundPoints: "",
+      leader: false,
+      completedGame: false,
+    };
   });
 
   return newState;

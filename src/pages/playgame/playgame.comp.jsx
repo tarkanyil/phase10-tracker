@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { withRouter, useHistory } from "react-router-dom";
@@ -10,39 +10,21 @@ import { resetState, roundSubmit } from "../../redux/game/game.actions";
 import {
   updatePlayerRoundPoints,
   updatePlayerPhase,
+  updatePlayerName,
   endOfRoundUpdate,
   newRoundSamePlayers,
 } from "../../redux/player/player.actions";
+
+import { numberOfPhases } from "../../utils/constants";
 
 import Header from "../../components/header/header.comp";
 
 const PlayGame = () => {
   const players = useSelector((state) => state.players);
   const game = useSelector((state) => state.game);
+  const history = useHistory();
 
   let gameCompleted = false;
-
-  // const checkGameCompleted = () => {
-  //   let completed = false;
-  //   players.map((player) => {
-  //     if (player.completedGame) {
-  //       completed = true;
-  //     }
-  //     gameCompleted = false;
-  //     return completed;
-  //   });
-  //   return completed;
-  // };
-
-  // gameCompleted = useRef(checkGameCompleted());
-
-  // useEffect(() => {
-  //   gameCompleted = checkGameCompleted();
-  //   console.log("from useeffect ", gameCompleted);
-  // });
-
-  console.log(game);
-  console.log("player completedGame", players[1].completedGame);
 
   const dispatch = useDispatch();
 
@@ -101,7 +83,6 @@ const PlayGame = () => {
 
   const checkGameCompleted = () => {
     let completed = false;
-    const numberOfPhases = 2;
     players.map((player) => {
       if (player.actualPhase == numberOfPhases && player.phaseCompleted) {
         completed = true;
@@ -109,13 +90,6 @@ const PlayGame = () => {
       }
       return completed;
     });
-    // players.forEach((player) => {
-    //   if (player.completedGame) {
-    //     completed = true;
-    //   }
-    //   return completed;
-    // });
-    console.log("checkGameCompl", completed);
     return completed;
   };
 
@@ -136,6 +110,15 @@ const PlayGame = () => {
     }
     return playersCompleted[idxWinner].name;
   };
+
+  const handleResetWithNewPlayers = () => history.push("/startgame");
+
+  const isWinner = (name) => {
+    if ((game.completed) && (name == determineWinner())) {
+      return true;
+    }
+    return false;
+  }
 
   return (
     <div>
@@ -160,7 +143,8 @@ const PlayGame = () => {
                 <div className="col-sm-12 col-md-6 col-lg-4" key={idx}>
                   <div className="card text-dark bg-light mb-3">
                     <div className="card-header">{player.name}</div>
-                    {/* <img src={image} alt="leader badge" className="leader-image" /> */}
+                    {isWinner(player.name) ? <img src={image} alt="leader badge" className="leader-image" /> : null}
+                    
                     <div className="card-body">
                       <h6 className="card-title">
                         Actual phase: {player.actualPhase}
@@ -204,7 +188,6 @@ const PlayGame = () => {
                       <h6 className="card-title">
                         Total points: {player.totalPoints}
                       </h6>
-                      {/* <h6 className="card-title">Rank: 1</h6> */}
                     </div>
                   </div>
                 </div>
@@ -225,9 +208,9 @@ const PlayGame = () => {
         </button>
         <button
           className="btn btn-lg btn-outline-success mb-4 new-game"
-          onClick={determineWinner}
+          onClick={handleResetWithNewPlayers}
         >
-          New game with new players (not working)
+          Restart with new players
         </button>
       </div>
     </div>

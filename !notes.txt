@@ -1,4 +1,18 @@
-Ideas:
-- undo previous round submit (in case round completed/points were mistakenly recorded)
-- refactor code -> put functions to .utils files
-- routing between screens (welcome / add player / playgame)
+Backlog:
+1. undo previous round submit (in case round completed/points were mistakenly recorded)
+2. refactor code -> put functions to .utils files
+4. routing between screens (welcome / add player / playgame)
+5. add winner badge at endOfGame
+
+WIP:
+3.
+homepage OK
+startgame OK
+playgame OK
+
+rename homepage to addplayer page 
+
+
+Done:
+3. develop final user path / screens
+

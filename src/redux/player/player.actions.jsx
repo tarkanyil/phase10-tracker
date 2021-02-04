@@ -10,11 +10,6 @@ export const updatePlayerName = players => ({
     payload: players
 })
 
-export const removePlayers = players => ({
-    type: PlayerActionTypes.REMOVE_PLAYERS,
-    payload: players
-})
-
 export const updatePlayerRoundPoints = players => ({
     type: PlayerActionTypes.UPDATE_PLAYER_ROUND_POINTS,
     payload: players
