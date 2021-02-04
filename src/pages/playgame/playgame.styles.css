@@ -28,3 +28,8 @@
 .card-subtitle {
     font-style: italic;
 }
+
+.error-msg {
+    color:red;
+    font-size: 11px;
+}

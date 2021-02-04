@@ -1,7 +1,7 @@
 import { numberOfPhases } from "../../utils/constants";
 
 export const updatePoints = (state, payload) => {
-  const index = Number(payload.name);
+  const index = Number(payload.idx);
   const incrementValue = Number(payload.value);
   return [
     ...state.slice(0, index), // everything before current post

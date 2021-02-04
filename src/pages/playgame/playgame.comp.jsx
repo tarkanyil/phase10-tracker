@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { withRouter, useHistory } from "react-router-dom";
@@ -17,22 +17,37 @@ import {
 import { numberOfPhases, phases } from "../../utils/constants";
 
 import Header from "../../components/header/header.comp";
+import { trimEnd } from "lodash";
 
 const PlayGame = () => {
   const players = useSelector((state) => state.players);
   const game = useSelector((state) => state.game);
   const history = useHistory();
 
+  const [isInputError, setIsInputError] = useState({
+    isError: false,
+    playerId: "",
+  });
+
+  const [inputErrorMessage, setInputErrorMessage] = useState("");
+
   let gameCompleted = false;
 
   const dispatch = useDispatch();
 
   const handlePointsInput = (event) => {
-    console.log("Hello from points update");
-    console.log(event.target.value);
-    console.log(event.target.name);
-    console.log(event.target);
-    dispatch(updatePlayerRoundPoints(event.target));
+    const value = event.target.value;
+    const idx = event.target.name;
+    isInputError.isError && setIsInputError({ isError: false, playerId: "" });
+    if (isNaN(value)) {
+      setIsInputError({ isError: true, playerId: idx });
+      setInputErrorMessage("Please enter a numeric value");
+      //update playerPoint to nixxx
+      dispatch(updatePlayerRoundPoints({ idx: idx, value: "" }));
+      return;
+    } else {
+      dispatch(updatePlayerRoundPoints({ idx: idx, value: value }));
+    }
   };
 
   const handleSubmit = (event) => {
@@ -113,11 +128,18 @@ const PlayGame = () => {
   const handleResetWithNewPlayers = () => history.push("/startgame");
 
   const isWinner = (name) => {
-    if ((game.completed) && (name == determineWinner())) {
+    if (game.completed && name == determineWinner()) {
       return true;
     }
     return false;
-  }
+  };
+
+  const isErrorWith = (id) => {
+    if (isInputError.isError && id == isInputError.playerId) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <div>
@@ -142,14 +164,20 @@ const PlayGame = () => {
                 <div className="col-sm-12 col-md-6 col-lg-4" key={idx}>
                   <div className="card text-dark bg-light mb-3">
                     <div className="card-header">{player.name}</div>
-                    {isWinner(player.name) ? <img src={image} alt="leader badge" className="leader-image" /> : null}
-                    
+                    {isWinner(player.name) ? (
+                      <img
+                        src={image}
+                        alt="leader badge"
+                        className="leader-image"
+                      />
+                    ) : null}
+
                     <div className="card-body">
                       <h6 className="card-title">
                         Actual phase: {player.actualPhase}
                       </h6>
                       <h6 className="card-subtitle">
-                        {phases[player.actualPhase-1].desc}
+                        {phases[player.actualPhase - 1].desc}
                       </h6>
                       <hr />
                       <h6 className="card-title">Round result</h6>
@@ -186,6 +214,9 @@ const PlayGame = () => {
                           onChange={handlePointsInput}
                         />
                       </div>
+                      {isErrorWith(idx) ? (
+                        <p className="error-msg">*{inputErrorMessage}</p>
+                      ) : null}
                       <hr />
                       <h6 className="card-title">
                         Total points: {player.totalPoints}

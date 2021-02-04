@@ -13,6 +13,8 @@ import { setInitialRound, resetState } from "../../redux/game/game.actions";
 
 import Header from "../../components/header/header.comp";
 
+import "./startgame.styles.css";
+
 const StartGame = () => {
   const dispatch = useDispatch();
 
@@ -27,9 +29,14 @@ const StartGame = () => {
 
   const [countSubmitted, setCountSubmitted] = useState(false);
 
+  const [isInputError, setIsInputError] = useState(false);
+
+  const [inputErrorMessage, setInputErrorMessage] = useState("");
+
   const players = useSelector((state) => state.players);
 
   const handleCountInput = (event) => {
+    setIsInputError(false);
     if (countSubmitted) {
       dispatch(updatePlayerName([]));
       setCountSubmitted(false);
@@ -38,30 +45,37 @@ const StartGame = () => {
     setPlayerCount(value);
   };
 
-  //   const handleInputClick = (event) => {
-  //     if ((players.length > 0) & (event.target.value === "")) {
-  //       dispatch(updatePlayerName([]));
-  //     }
-  //   };
-
-  const handleCountSubmit = () => {
-    let playerId = 0;
-    lodash.times(playerCount, () => {
-      dispatch(
-        addPlayers({
-          id: playerId,
-          name: "",
-          phaseCompleted: false,
-          actualPhase: 1,
-          totalPoints: 0,
-          roundPoints: "",
-          leader: false,
-          completedGame: false,
-        })
-      );
-      playerId++;
-    });
-    setCountSubmitted(true);
+  const handleCountSubmit = (event) => {
+    event.preventDefault();
+    if (isNaN(playerCount)) {
+      setIsInputError(true);
+      setInputErrorMessage("Please enter a >1 numeric value");
+      setPlayerCount("");
+      return;
+    } else if (playerCount <= 1) {
+      setIsInputError(true);
+      setInputErrorMessage("Please enter a >1 numeric value");
+      setPlayerCount("");
+      return;
+    } else {
+      let playerId = 0;
+      lodash.times(playerCount, () => {
+        dispatch(
+          addPlayers({
+            id: playerId,
+            name: "",
+            phaseCompleted: false,
+            actualPhase: 1,
+            totalPoints: 0,
+            roundPoints: 0,
+            leader: false,
+            completedGame: false,
+          })
+        );
+        playerId++;
+      });
+      setCountSubmitted(true);
+    }
   };
 
   console.log("players state", players);
@@ -95,32 +109,35 @@ const StartGame = () => {
 
         <div className="init-input mt-5">
           <div className="d-flex flex-column bd-highlight">
-            <div className="p-2 bd-highlight">
-              {" "}
-              <input
-                type="text"
-                name="playercount"
-                className="form-control-lg"
-                placeholder="No. of players"
-                value={playerCount}
-                onChange={handleCountInput}
-                // onClick={handleInputClick}
-              />
-            </div>
-
-            <div className="d-flex flex-row bd-highlight mt-2 justify-content-center">
+            <form className="player-input mt-4" onSubmit={handleCountSubmit}>
               <div className="p-2 bd-highlight">
                 {" "}
-                <button
-                  className="btn btn-lg btn-warning"
-                  type="button"
-                  id="button-addon2"
-                  onClick={handleCountSubmit}
-                >
-                  Submit
-                </button>
+                <input
+                  type="text"
+                  name="playercount"
+                  className="form-control-lg"
+                  placeholder="No. of players"
+                  value={playerCount}
+                  onChange={handleCountInput}
+                  required
+                />
+                {isInputError ? <p className="error-msg mt-1">*{inputErrorMessage}</p> : null}
               </div>
-            </div>
+
+              <div className="d-flex flex-row bd-highlight mt-2 justify-content-center">
+                <div className="p-2 bd-highlight">
+                  {" "}
+                  <button
+                    className="btn btn-lg btn-warning"
+                    type="submit"
+                    id="button-addon2"
+                    onClick={handleCountSubmit}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
             <form className="player-input mt-4" onSubmit={handleNamesSubmit}>
               {countSubmitted &&
                 players.map((player, idx) => {
