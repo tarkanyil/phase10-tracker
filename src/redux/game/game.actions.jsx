@@ -14,3 +14,8 @@ export const resetState = round => ({
     type: GameActionTypes.RESET_STATE,
     payload: round
 })
+
+export const gameRollback = round => ({
+    type: GameActionTypes.GAME_ROLLBACK,
+    payload: round
+})

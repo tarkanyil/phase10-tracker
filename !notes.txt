@@ -1,18 +1,21 @@
 Backlog:
-1. undo previous round submit (in case round completed/points were mistakenly recorded)
 2. refactor code -> put functions to .utils files
-4. routing between screens (welcome / add player / playgame)
-5. add winner badge at endOfGame
+
+
 
 WIP:
-3.
-homepage OK
-startgame OK
-playgame OK
+1. undo previous round submit (in case round completed/points were mistakenly recorded)
 
-rename homepage to addplayer page 
+add prevXYZ values to state 
+player: actual phase, totalPoints - ADDED. Values to reset: completedGame: false, phaseCompleted: false, roundPoints: 0
+game: givesCard - ADDED. Values to reset: count: count-1, completed: false
+
+rollback button shall be disabled when it is pressed
+
+
 
 
 Done:
 3. develop final user path / screens
-
+5. add winner badge at endOfGame
+4. routing between screens (welcome / add player / playgame)

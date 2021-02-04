@@ -58,9 +58,11 @@ export const roundEndUpdate = (state) => {
     return {
       ...player,
       totalPoints: newTotalPoints,
+      prevTotalPoints: player.totalPoints,
       roundPoints: newRoundPoints,
       phaseCompleted: newPhaseCompl,
       actualPhase: newPhase,
+      prevActualPhase: player.actualPhase,
       completedGame: newGameCompl(),
     };
   });
@@ -74,7 +76,9 @@ export const resetExistingPlayers = (state) => {
       ...player,
       phaseCompleted: false,
       actualPhase: 1,
+      prevActualPhase: 1,
       totalPoints: 0,
+      prevTotalPoints: 0,
       roundPoints: "",
       leader: false,
       completedGame: false,
@@ -83,3 +87,21 @@ export const resetExistingPlayers = (state) => {
 
   return newState;
 };
+
+export const playerRollback = (state) => {
+  const newState = state.map((player) => {
+    return {
+      ...player,
+      phaseCompleted: false,
+      actualPhase: player.prevActualPhase,
+      prevActualPhase: "",
+      totalPoints: player.prevTotalPoints,
+      prevTotalPoints: "",
+      roundPoints: "",
+      leader: false,
+      completedGame: false,
+    };
+  });
+
+  return newState;
+}

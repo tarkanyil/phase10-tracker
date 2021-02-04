@@ -30,3 +30,8 @@ export const newRoundSamePlayers = players => ({
     payload: players
 })
 
+export const playerRollback = players => ({
+    type: PlayerActionTypes.PLAYER_ROLLBACK,
+    payload: players
+})
+

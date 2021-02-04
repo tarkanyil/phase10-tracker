@@ -6,18 +6,22 @@ import { withRouter, useHistory } from "react-router-dom";
 import "./playgame.styles.css";
 import image from "../../assets/leader-badge.png";
 
-import { resetState, roundSubmit } from "../../redux/game/game.actions";
+import {
+  resetState,
+  roundSubmit,
+  gameRollback,
+} from "../../redux/game/game.actions";
 import {
   updatePlayerRoundPoints,
   updatePlayerPhase,
   endOfRoundUpdate,
   newRoundSamePlayers,
+  playerRollback,
 } from "../../redux/player/player.actions";
 
 import { numberOfPhases, phases } from "../../utils/constants";
 
 import Header from "../../components/header/header.comp";
-import { trimEnd } from "lodash";
 
 const PlayGame = () => {
   const players = useSelector((state) => state.players);
@@ -30,6 +34,8 @@ const PlayGame = () => {
   });
 
   const [inputErrorMessage, setInputErrorMessage] = useState("");
+
+  const [rollbackButtonEnabled, setRollbackButtonEnabled] = useState(true)
 
   let gameCompleted = false;
 
@@ -56,6 +62,8 @@ const PlayGame = () => {
     updatePlayerState();
 
     setTimeout(() => updateGameState(), 1);
+
+    setRollbackButtonEnabled(true);
   };
 
   const updatePlayerState = () => {
@@ -67,7 +75,11 @@ const PlayGame = () => {
     console.log("updateGameState checkGameComp", gameCompleted);
     const nextGiver = givesCardsNext(game.givesCard);
     dispatch(
-      roundSubmit({ nextGiver: nextGiver, gameCompleted: gameCompleted })
+      roundSubmit({
+        nextGiver: nextGiver,
+        gameCompleted: gameCompleted,
+        prevGiver: game.givesCard,
+      })
     );
   };
 
@@ -139,6 +151,12 @@ const PlayGame = () => {
       return true;
     }
     return false;
+  };
+
+  const handleRollback = () => {
+    dispatch(playerRollback());
+    dispatch(gameRollback());
+    setRollbackButtonEnabled(false);
   };
 
   return (
@@ -233,6 +251,13 @@ const PlayGame = () => {
             </button>
           )}
         </form>
+        <button
+          className="btn btn-lg btn-outline-warning mt-1 mb-4"
+          onClick={handleRollback}
+          disabled={rollbackButtonEnabled ? false : true}
+        >
+          Undo last round submission
+        </button>
         <button
           className="btn btn-lg btn-outline-primary mb-4 new-game"
           onClick={handleNewSame}

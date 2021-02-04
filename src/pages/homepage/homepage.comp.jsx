@@ -7,8 +7,6 @@ import "./homepage.styles.css";
 
 import Header from "../../components/header/header.comp";
 
-import Footer from "../../components/footer/footer.comp";
-
 const HomePage = () => {
   const history = useHistory();
   const players = useSelector((state) => state.players);
