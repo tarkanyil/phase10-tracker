@@ -1,2 +1,2 @@
-export const numberOfPhases = 3;
+export const numberOfPhases = 10;
 
