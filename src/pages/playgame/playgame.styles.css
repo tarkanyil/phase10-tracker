@@ -13,3 +13,14 @@
     width: 60px;
     height: 80px;
 }
+
+.new-game {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.playgame-form {
+    margin-bottom: 50px;
+}

@@ -37,7 +37,7 @@ const HomePage = () => {
   const handleCountSubmit = () => {
     let playerId = 0;
     lodash.times(playerCount, () => {
-      dispatch(addPlayers({ id: playerId, name: "", phaseCompleted: false, actualPhase: 1, totalPoints: 0, roundPoints: "", leader: false }));
+      dispatch(addPlayers({ id: playerId, name: "", phaseCompleted: false, actualPhase: 1, totalPoints: 0, roundPoints: "", leader: false, completedGame: false }));
       playerId++;
     })
     setCountSubmitted(true);
@@ -123,7 +123,7 @@ const HomePage = () => {
                         name={idx}
                         data-idx={idx}
                         type="text"
-                        alt="name"
+                        alt={idx}
                         className="form-control-lg"
                         placeholder={`Player ${idx + 1}`}
                         value={players[idx].name}

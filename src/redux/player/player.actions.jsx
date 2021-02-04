@@ -30,3 +30,8 @@ export const endOfRoundUpdate = players => ({
     payload: players
 })
 
+export const newRoundSamePlayers = players => ({
+    type: PlayerActionTypes.NEW_ROUND_SAME_PLAYERS,
+    payload: players
+})
+

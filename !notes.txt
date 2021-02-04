@@ -1,0 +1,4 @@
+Ideas:
+- undo previous round submit (in case round completed/points were mistakenly recorded)
+- refactor code -> put functions to .utils files
+- routing between screens (welcome / add player / playgame)
