@@ -11,8 +11,6 @@ import {
 
 import { setInitialRound, resetState } from "../../redux/game/game.actions";
 
-import ResetAllStates from "../../utils/ResetAllStates.util";
-
 import Header from "../../components/header/header.comp";
 
 const StartGame = () => {

@@ -10,7 +10,6 @@ import { resetState, roundSubmit } from "../../redux/game/game.actions";
 import {
   updatePlayerRoundPoints,
   updatePlayerPhase,
-  updatePlayerName,
   endOfRoundUpdate,
   newRoundSamePlayers,
 } from "../../redux/player/player.actions";
