@@ -1,6 +1,6 @@
 Backlog:
 2. refactor code -> put functions to .utils files
-
+BUG: when P10 is reached, player ActualPhase changes to text value -> phase desc generation on the user card fails.
 
 
 WIP:

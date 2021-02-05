@@ -195,7 +195,7 @@ const PlayGame = () => {
                         Actual phase: {player.actualPhase}
                       </h6>
                       <h6 className="card-subtitle">
-                        {phases[player.actualPhase - 1].desc}
+                        {(player.actualPhase !== "GAME COMPLETED") ? (phases[player.actualPhase - 1].desc) : "All phases checked!"}
                       </h6>
                       <hr />
                       <h6 className="card-title">Round result</h6>
