@@ -25,4 +25,4 @@ yarn-error.log*
 _notes.txt
 debug.log
 .eslintcache
-
+.vscode
