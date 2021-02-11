@@ -140,7 +140,7 @@ const StartGame = () => {
               className="btn btn-lg btn-warning mt-5"
               onClick={handleStartNewGame}
             >
-              Start new game
+              Start new game NOW :)
             </button>
 
             <button
