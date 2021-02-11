@@ -31,7 +31,7 @@ const HomePage = () => {
             className="btn btn-lg btn-primary mt-5"
             onClick={handleResumeGame}
           >
-            Resume previous game
+            Resume actual game
           </button>
         ) : null}
       </div>
