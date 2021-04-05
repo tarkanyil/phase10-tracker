@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter, useHistory } from 'react-router-dom';
@@ -37,11 +37,15 @@ const PlayGame = () => {
 
   const [rollbackButtonEnabled, setRollbackButtonEnabled] = useState(true);
 
-  const [submitDarkness, setSubmitDarkness] = useState(false);
+  const [darknessText, setDarknessText] = useState("Let's play!");
 
   let gameCompleted = false;
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    handleDarknessAnimation();
+  }, []);
 
   const handlePointsInput = (event) => {
     const value = event.target.value;
@@ -50,7 +54,6 @@ const PlayGame = () => {
     if (isNaN(value)) {
       setIsInputError({ isError: true, playerId: idx });
       setInputErrorMessage('Please enter a numeric value');
-      //update playerPoint to nixxx
       dispatch(updatePlayerRoundPoints({ idx: idx, value: '' }));
       return;
     } else {
@@ -63,11 +66,14 @@ const PlayGame = () => {
 
     updatePlayerState();
 
-    setTimeout(() => updateGameState(), 1);
+    updateGameState();
 
     setRollbackButtonEnabled(true);
 
-    handleSubmitAnimation();
+    (darknessText !== 'Next round!') && setDarknessText('Next round!');
+    gameCompleted && setDarknessText('Game completed!');
+
+    handleDarknessAnimation();
   };
 
   const updatePlayerState = () => {
@@ -76,7 +82,6 @@ const PlayGame = () => {
 
   const updateGameState = () => {
     gameCompleted = checkGameCompleted();
-    console.log('updateGameState checkGameComp', gameCompleted);
     const nextGiver = givesCardsNext(game.givesCard);
     dispatch(
       roundSubmit({
@@ -109,6 +114,8 @@ const PlayGame = () => {
   const handleNewSame = () => {
     dispatch(newRoundSamePlayers());
     dispatch(resetState(players[0].name));
+    (darknessText !== "Let's play!") && setDarknessText("Let's play!");
+    handleDarknessAnimation();
   };
 
   const checkGameCompleted = () => {
@@ -161,9 +168,11 @@ const PlayGame = () => {
     dispatch(playerRollback());
     dispatch(gameRollback());
     setRollbackButtonEnabled(false);
+    (darknessText !== "Let's replay this round!") && setDarknessText("Let's replay this round!");
+    handleDarknessAnimation();
   };
 
-  const handleSubmitAnimation = () => {
+  const handleDarknessAnimation = () => {
     const modal = document.getElementById('modal');
     const modalText = document.getElementById('modal-text');
     modal.classList.add('my-modal');
@@ -181,7 +190,7 @@ const PlayGame = () => {
     <div>
       <div id='modal' className=''>
         <h1 id='modal-text' className='modal-text-hidden'>
-          Next round!
+          {darknessText}
         </h1>
       </div>
       <Header />
@@ -243,7 +252,7 @@ const PlayGame = () => {
 
                       <div className='input-group mb-3'>
                         <span className='input-group-text' id='basic-addon3'>
-                          Points
+                          Penalty points
                         </span>
                         <input
                           key={idx}

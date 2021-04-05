@@ -54,7 +54,7 @@ export const roundEndUpdate = (state) => {
       }
       return false;
     };
-    const newRoundPoints = 0;
+    const newRoundPoints = "";
     return {
       ...player,
       totalPoints: newTotalPoints,

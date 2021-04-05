@@ -63,10 +63,6 @@ const StartGame = () => {
 
   const handleCountInput = (event) => {
     setIsInputError(false);
-    // if (countSubmitted) {
-    //   dispatch(updatePlayerName([]));
-    //   setCountSubmitted(false);
-    // }
     const { value } = event.target;
     setPlayerCount(value);
   };
@@ -95,7 +91,7 @@ const StartGame = () => {
             prevActualPhase: 1,
             totalPoints: 0,
             prevTotalPoints: 0,
-            roundPoints: 0,
+            roundPoints: "",
             leader: false,
             completedGame: false,
           })

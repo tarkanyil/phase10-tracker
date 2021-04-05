@@ -195,3 +195,15 @@
   color: red;
   font-size: 11px;
 }
+
+.form-check-input {
+    height: 35px;
+    width: 35px;
+    margin-top: -0.25rem;
+    margin-left: -0.5rem !important;
+}
+
+.form-check-label {
+    margin-left: -2rem;
+}
+
