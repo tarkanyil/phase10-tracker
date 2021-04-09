@@ -1,4 +1,4 @@
-export const numberOfPhases = 2;
+export const numberOfPhases = 10;
 
 export const phases = [
     {num: 1, desc: "2 sets of 3"},
