@@ -22,6 +22,7 @@ Users should be able to:
 - Track score and round completion for each player
 - Undo the submission of the latest round
 - View actual scores and game status for each player
+- Resume a previously not finished game (on the same device)
 - Initiate new game with new players, as well as with the same players
 
 ### Screenshot
