@@ -1,6 +1,6 @@
 # Phase 10 Card Game Tracker 
 
-This is one of my personal projects with which I wanted to make everyday life easier. This tracker provides an app-based solution for tracking score and game progression for the popular cardgame, [Phase 10](https://www.mattelgames.com/en-us/cards/phase-10). 
+This is one of my personal projects with which I wanted to make everyday life easier. This tracker provides a webapp-based solution for tracking score and game progression for the popular cardgame, [Phase 10](https://www.mattelgames.com/en-us/cards/phase-10). 
 
 ## Table of contents
 
